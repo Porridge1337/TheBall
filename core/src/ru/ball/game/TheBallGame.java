@@ -9,11 +9,13 @@ public class TheBallGame extends ApplicationAdapter {
 
     private ShapeRenderer shape;
     private Ball ball;
+    private Paddle paddle;
 
     @Override
     public void create() {
         shape = new ShapeRenderer();
         ball = new Ball(0, 0, 50, 5, 5);
+        paddle = new Paddle(50, 150, 20);
     }
 
     @Override
@@ -22,6 +24,8 @@ public class TheBallGame extends ApplicationAdapter {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.draw(shape);
         ball.update();
+        paddle.draw(shape);
+        paddle.update();
         shape.end();
     }
 
