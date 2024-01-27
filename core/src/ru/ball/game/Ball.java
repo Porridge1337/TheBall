@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Ball {
 
     private int x;
-    private int y = 50;
-    private int size;
+    private int y;
+    private final int size;
     private int xSpeed;
     private int ySpeed;
 
@@ -17,20 +17,54 @@ public class Ball {
         this.size = size;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
+        correctIfInInvalidPosition();
+    }
+
+    private void correctIfInInvalidPosition() {
+        if (isOutOfLeftCorner())
+            this.x += (size - x);
+        if (isOutOfRightCorner())
+            this.x -= (size - x);
+        if (isOutOfBottomCorner())
+            this.y += (size - y);
+        if (isOutOfTopCorner())
+            this.y -= (size - y);
     }
 
     public void update() {
         x += xSpeed;
         y += ySpeed;
-        if (x < 0 || x > Gdx.graphics.getWidth()) {
+        if (isOutOfBoundsX())
             xSpeed = -xSpeed;
-        }
-        if (y < 0 || y > Gdx.graphics.getHeight()) {
+        if (isOutOfBoundsY())
             ySpeed = -ySpeed;
-        }
+    }
+
+    private boolean isOutOfBoundsX() {
+        return (isOutOfLeftCorner() || isOutOfRightCorner());
     }
 
     public void draw(ShapeRenderer shape) {
         shape.circle(x, y, size);
+    }
+
+    private boolean isOutOfBoundsY() {
+        return (isOutOfBottomCorner() || isOutOfTopCorner());
+    }
+
+    private boolean isOutOfLeftCorner() {
+        return (x - size) < 0;
+    }
+
+    private boolean isOutOfRightCorner() {
+        return (x + size) > Gdx.graphics.getWidth();
+    }
+
+    private boolean isOutOfTopCorner() {
+        return (y + size) > Gdx.graphics.getHeight();
+    }
+
+    private boolean isOutOfBottomCorner() {
+        return (y - size) < 0;
     }
 }
