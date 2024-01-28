@@ -14,8 +14,8 @@ public class TheBallGame extends ApplicationAdapter {
     @Override
     public void create() {
         shape = new ShapeRenderer();
-        ball = new Ball(0, 0, 50, 5, 5);
-        paddle = new Paddle(50, 150, 20);
+        ball = new Ball(320, 240, 50, 5, 5);
+        paddle = new Paddle(50, 0, 150, 20);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class TheBallGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.draw(shape);
-        ball.update();
+        //ball.update();
         paddle.draw(shape);
         paddle.update();
         shape.end();
