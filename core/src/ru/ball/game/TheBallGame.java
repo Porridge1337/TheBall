@@ -26,6 +26,7 @@ public class TheBallGame extends ApplicationAdapter {
         //ball.update();
         paddle.draw(shape);
         paddle.update();
+        ball.checkCollision(paddle);
         shape.end();
     }
 

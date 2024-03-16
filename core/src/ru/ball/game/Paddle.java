@@ -59,4 +59,20 @@ public class Paddle {
     private boolean isOutOfBoundsY(float inputCursorY) {
         return (isOutOfBottomCorner(inputCursorY) || isOutOfTopCorner(inputCursorY));
     }
+
+    public float getPaddleX() {
+        return x;
+    }
+
+    public float getPaddleY() {
+        return y;
+    }
+
+    public float getWidthRec() {
+        return widthRec;
+    }
+
+    public float getHeightRec() {
+        return heightRec;
+    }
 }

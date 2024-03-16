@@ -1,6 +1,7 @@
 package ru.ball.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Ball {
@@ -10,6 +11,7 @@ public class Ball {
     private final int size;
     private int xSpeed;
     private int ySpeed;
+    private Color color = Color.WHITE;
 
     public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
         this.x = x;
@@ -45,7 +47,24 @@ public class Ball {
     }
 
     public void draw(ShapeRenderer shape) {
+        shape.setColor(color);
         shape.circle(x, y, size);
+    }
+
+    public void checkCollision(Paddle paddle) {
+        if (collidesWith(paddle)) {
+            color = Color.GREEN;
+        } else {
+            color = Color.WHITE;
+        }
+    }
+
+    //мы вычисляем расстояние между центром круга и ближайшей точкой прямоугольника, и если это расстояние меньше радиуса круга, то они пересекаются.
+    private boolean collidesWith(Paddle paddle) {
+        //deltaX и deltaY показывают изменение позиции объекта в пространстве
+        float deltaX = this.x - Math.max(paddle.getPaddleX(), Math.min(this.x, paddle.getPaddleX() + paddle.getWidthRec()));
+        float deltaY = this.y - Math.max(paddle.getPaddleY(), Math.min(this.y, paddle.getPaddleY() + paddle.getHeightRec()));
+        return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
     }
 
     private boolean isOutOfBoundsY() {
