@@ -23,7 +23,7 @@ public class TheBallGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.draw(shape);
-        ball.update();
+        ball.update(paddle);
         paddle.draw(shape);
         paddle.update();
         shape.end();

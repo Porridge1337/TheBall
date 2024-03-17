@@ -31,13 +31,21 @@ public class Ball {
             this.y -= (size - y);
     }
 
-    public void update() {
+    public void update(Paddle paddle) {
         x += xSpeed;
         y += ySpeed;
         if (isOutOfBoundsX())
             xSpeed = -xSpeed;
-        if (isOutOfBoundsY())
+        if (isOutOfBoundsY() || collidesWith(paddle))
             ySpeed = -ySpeed;
+    }
+
+    //мы вычисляем расстояние между центром круга и ближайшей точкой прямоугольника, и если это расстояние меньше радиуса круга, то они пересекаются.
+    private boolean collidesWith(Paddle paddle) {
+        //deltaX и deltaY показывают изменение позиции объекта в пространстве
+        float deltaX = this.x - Math.max(paddle.getPaddleX(), Math.min(this.x, paddle.getPaddleX() + paddle.getWidthRec()));
+        float deltaY = this.y - Math.max(paddle.getPaddleY(), Math.min(this.y, paddle.getPaddleY() + paddle.getHeightRec()));
+        return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
     }
 
     private boolean isOutOfBoundsX() {

@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Paddle {
 
     private float x;
-    private final float width;
-    private final float height;
-    private final int widthOfRightCorner = Gdx.graphics.getWidth();
+    private final float widthRec;
+    private final float heightRec;
+    private final int widthOfScreen = Gdx.graphics.getWidth();
 
-    public Paddle(float x, float width, float height) {
+    public Paddle(float x, float widthRec, float heightRec) {
         this.x = x;
-        this.width = width;
-        this.height = height;
+        this.widthRec = widthRec;
+        this.heightRec = heightRec;
     }
 
     public void draw(ShapeRenderer shape) {
-        shape.rect(x, 0, width, height);
+        shape.rect(x, 0, widthRec, heightRec);
     }
 
     public void update() {
@@ -27,19 +27,36 @@ public class Paddle {
 
     private void setCursorCoordinates(float inputCursorX) {
         if (!isOutOfBoundsX(inputCursorX)) {
-            this.x = inputCursorX - (width / 2);
+            this.x = inputCursorX - (widthRec / 2);
         }
     }
 
     private boolean isOutOfRightCorner(float inputCursorX) {
-        return (inputCursorX + (width / 2)) > widthOfRightCorner;
+        return (inputCursorX + (widthRec / 2)) > widthOfScreen;
     }
 
     private boolean isOutOfLeftCorner(float inputCursorX) {
-        return (inputCursorX - (width / 2)) < 0;
+        return (inputCursorX - (widthRec / 2)) < 0;
     }
+
 
     private boolean isOutOfBoundsX(float inputCursorX) {
         return (isOutOfLeftCorner(inputCursorX) || isOutOfRightCorner(inputCursorX));
+    }
+
+    public float getPaddleX() {
+        return x;
+    }
+
+    public float getPaddleY() {
+        return 0;
+    }
+
+    public float getWidthRec() {
+        return widthRec;
+    }
+
+    public float getHeightRec() {
+        return heightRec;
     }
 }
