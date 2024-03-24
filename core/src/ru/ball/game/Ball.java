@@ -40,11 +40,25 @@ public class Ball {
             ySpeed = -ySpeed;
     }
 
+    public void update(Block block) {
+        if (collidesWith(block)) {
+            ySpeed = -ySpeed;
+            block.setDestroyed(true);
+        }
+    }
+
+
     //мы вычисляем расстояние между центром круга и ближайшей точкой прямоугольника, и если это расстояние меньше радиуса круга, то они пересекаются.
     private boolean collidesWith(Paddle paddle) {
         //deltaX и deltaY показывают изменение позиции объекта в пространстве
         float deltaX = this.x - Math.max(paddle.getPaddleX(), Math.min(this.x, paddle.getPaddleX() + paddle.getWidthRec()));
         float deltaY = this.y - Math.max(paddle.getPaddleY(), Math.min(this.y, paddle.getPaddleY() + paddle.getHeightRec()));
+        return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
+    }
+
+    private boolean collidesWith(Block block) {
+        float deltaX = this.x - Math.max(block.getBlockX(), Math.min(this.x, block.getBlockX() + block.getBlockWidth()));
+        float deltaY = this.y - Math.max(block.getBlockY(), Math.min(this.y, block.getBlockY() + block.getBlockHeight()));
         return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
     }
 
