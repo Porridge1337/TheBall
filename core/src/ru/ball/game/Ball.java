@@ -54,6 +54,13 @@ public class Ball {
         }
     }
 
+    public State checkDroppedOnTheGround(State state) {
+        if (isOutOfBottomCorner()) {
+            return State.PAUSE;
+        } else return state;
+    }
+
+
     //мы вычисляем расстояние между центром круга и ближайшей точкой прямоугольника, и если это расстояние меньше радиуса круга, то они пересекаются.
     private boolean collidesWith(CollidableShape collidableShape) {
         //deltaX и deltaY показывают изменение позиции объекта в пространстве
@@ -90,4 +97,6 @@ public class Ball {
     private boolean isOutOfBottomCorner() {
         return (y - size) < 0;
     }
+
+
 }
