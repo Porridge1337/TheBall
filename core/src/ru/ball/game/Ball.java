@@ -21,46 +21,47 @@ public class Ball {
     }
 
     private void correctIfInInvalidPosition() {
-        if (isOutOfLeftCorner())
+        if (isOutOfLeftCorner()) {
             this.x += (size - x);
-        if (isOutOfRightCorner())
+        }
+        if (isOutOfRightCorner()) {
             this.x -= (size - x);
-        if (isOutOfBottomCorner())
+        }
+        if (isOutOfBottomCorner()) {
             this.y += (size - y);
-        if (isOutOfTopCorner())
+        }
+        if (isOutOfTopCorner()) {
             this.y -= (size - y);
+        }
+
     }
 
     public void update(Paddle paddle) {
         x += xSpeed;
         y += ySpeed;
-        if (isOutOfBoundsX())
+        if (isOutOfBoundsX()) {
             xSpeed = -xSpeed;
-        if (isOutOfBoundsY() || collidesWith(paddle))
+        }
+        if (isOutOfBoundsY() || collidesWith(paddle)) {
             ySpeed = -ySpeed;
+        }
     }
 
-    public void update(Block block) {
+    public void checkBlockCollision(Block block) {
         if (collidesWith(block)) {
             ySpeed = -ySpeed;
             block.setDestroyed(true);
         }
     }
 
-
     //мы вычисляем расстояние между центром круга и ближайшей точкой прямоугольника, и если это расстояние меньше радиуса круга, то они пересекаются.
-    private boolean collidesWith(Paddle paddle) {
+    private boolean collidesWith(CollidableShape collidableShape) {
         //deltaX и deltaY показывают изменение позиции объекта в пространстве
-        float deltaX = this.x - Math.max(paddle.getPaddleX(), Math.min(this.x, paddle.getPaddleX() + paddle.getWidthRec()));
-        float deltaY = this.y - Math.max(paddle.getPaddleY(), Math.min(this.y, paddle.getPaddleY() + paddle.getHeightRec()));
+        float deltaX = this.x - Math.max(collidableShape.getX(), Math.min(this.x, collidableShape.getX() + collidableShape.getWidth()));
+        float deltaY = this.y - Math.max(collidableShape.getY(), Math.min(this.y, collidableShape.getY() + collidableShape.getHeight()));
         return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
     }
 
-    private boolean collidesWith(Block block) {
-        float deltaX = this.x - Math.max(block.getBlockX(), Math.min(this.x, block.getBlockX() + block.getBlockWidth()));
-        float deltaY = this.y - Math.max(block.getBlockY(), Math.min(this.y, block.getBlockY() + block.getBlockHeight()));
-        return (Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < Math.pow(this.size, 2);
-    }
 
     private boolean isOutOfBoundsX() {
         return (isOutOfLeftCorner() || isOutOfRightCorner());

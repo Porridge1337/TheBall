@@ -30,13 +30,13 @@ public class TheBallGame extends ApplicationAdapter {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.draw(shape);
         ball.update(paddle);
-
         paddle.draw(shape);
+        paddle.update();
         blocks.forEach(block -> {
             block.draw(shape);
-            ball.update(block);
+            ball.checkBlockCollision(block);
         });
-        paddle.update();
+        blocks.removeIf(Block::isDestroyed);
         shape.end();
     }
 
@@ -44,7 +44,6 @@ public class TheBallGame extends ApplicationAdapter {
     public void dispose() {
         shape.dispose();
     }
-
 
     private List<Block> generateBlock(int clientAreaHeight, int clientAreaWidth) {
         List<Block> blocks = new ArrayList<>();

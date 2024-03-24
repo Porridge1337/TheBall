@@ -2,7 +2,7 @@ package ru.ball.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Block {
+public class Block implements CollidableShape {
 
     private final int blockX;
     private final int blockY;
@@ -21,23 +21,31 @@ public class Block {
         shape.rect(blockX, blockY, blockWidth, blockHeight);
     }
 
-    public int getBlockX() {
+    @Override
+    public float getX() {
         return blockX;
     }
 
-    public int getBlockY() {
+    @Override
+    public float getY() {
         return blockY;
     }
 
-    public int getBlockWidth() {
+    @Override
+    public float getWidth() {
         return blockWidth;
     }
 
-    public int getBlockHeight() {
+    @Override
+    public float getHeight() {
         return blockHeight;
     }
 
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
     }
 }

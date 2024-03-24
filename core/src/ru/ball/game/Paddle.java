@@ -3,7 +3,7 @@ package ru.ball.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Paddle {
+public class Paddle implements CollidableShape {
 
     private float x;
     private final float widthRec;
@@ -44,19 +44,23 @@ public class Paddle {
         return (isOutOfLeftCorner(inputCursorX) || isOutOfRightCorner(inputCursorX));
     }
 
-    public float getPaddleX() {
+    @Override
+    public float getX() {
         return x;
     }
 
-    public float getPaddleY() {
+    @Override
+    public float getY() {
         return 0;
     }
 
-    public float getWidthRec() {
+    @Override
+    public float getWidth() {
         return widthRec;
     }
 
-    public float getHeightRec() {
+    @Override
+    public float getHeight() {
         return heightRec;
     }
 }
