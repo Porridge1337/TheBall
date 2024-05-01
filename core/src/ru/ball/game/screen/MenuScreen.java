@@ -5,23 +5,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ru.ball.game.orchestrator.TheBallGame;
 
-public class EndGameScreen implements Screen {
+public class MenuScreen implements Screen {
 
     private final TheBallGame orchestrator;
     private final Stage stage;
     private Table table;
-    private Label endGameLabel;
+    private TextButton newGame;
     private TextButton exit;
 
-
-    public EndGameScreen(TheBallGame orchestrator) {
+    public MenuScreen(TheBallGame orchestrator) {
         this.orchestrator = orchestrator;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -34,8 +32,13 @@ public class EndGameScreen implements Screen {
         //table.setDebug(true);
         stage.addActor(table);
 
-        endGameLabel = new Label("You're lose", orchestrator.getSkin());
-
+        newGame = new TextButton("Start game", orchestrator.getSkin());
+        newGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                orchestrator.changeScreen(TheBallGame.START);
+            }
+        });
         exit = new TextButton("Exit", orchestrator.getSkin());
         exit.addListener(new ChangeListener() {
             @Override
@@ -43,7 +46,7 @@ public class EndGameScreen implements Screen {
                 Gdx.app.exit();
             }
         });
-        table.add(endGameLabel);
+        table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(exit).fillX().uniformX();
         table.row();
@@ -55,7 +58,6 @@ public class EndGameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
-
     }
 
     @Override
@@ -82,4 +84,6 @@ public class EndGameScreen implements Screen {
     public void dispose() {
         stage.dispose();
     }
+
+
 }

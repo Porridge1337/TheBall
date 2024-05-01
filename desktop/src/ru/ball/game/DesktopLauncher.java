@@ -2,7 +2,7 @@ package ru.ball.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import ru.ball.game.screen.TheBallGame;
+import ru.ball.game.orchestrator.TheBallGame;
 
 
 public class DesktopLauncher {
