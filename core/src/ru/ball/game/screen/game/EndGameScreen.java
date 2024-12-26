@@ -1,26 +1,25 @@
-package ru.ball.game.screen;
+package ru.ball.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ru.ball.game.orchestrator.TheBallGame;
+import ru.ball.game.screen.AbstractScreen;
 
-public class MenuScreen implements Screen {
+public class EndGameScreen extends AbstractScreen {
 
-    private final TheBallGame orchestrator;
     private final Stage stage;
     private Table table;
-    private TextButton newGame;
+    private Label endGameLabel;
     private TextButton exit;
 
-    public MenuScreen(TheBallGame orchestrator) {
-        this.orchestrator = orchestrator;
+
+    public EndGameScreen() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
     }
@@ -29,24 +28,18 @@ public class MenuScreen implements Screen {
     public void show() {
         table = new Table();
         table.setFillParent(true);
-        //table.setDebug(true);
         stage.addActor(table);
 
-        newGame = new TextButton("Start game", orchestrator.getSkin());
-        newGame.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                orchestrator.changeScreen(TheBallGame.START);
-            }
-        });
-        exit = new TextButton("Exit", orchestrator.getSkin());
+        endGameLabel = new Label("You're lose", getSkin());
+
+        exit = new TextButton("Exit", getSkin());
         exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
-        table.add(newGame).fillX().uniformX();
+        table.add(endGameLabel);
         table.row().pad(10, 0, 10, 0);
         table.add(exit).fillX().uniformX();
         table.row();
@@ -58,6 +51,7 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
+
     }
 
     @Override
@@ -84,6 +78,4 @@ public class MenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
     }
-
-
 }
