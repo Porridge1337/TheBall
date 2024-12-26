@@ -1,4 +1,4 @@
-package ru.ball.game.screen;
+package ru.ball.game.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,6 +8,8 @@ import ru.ball.game.Ball;
 import ru.ball.game.Block;
 import ru.ball.game.Paddle;
 import ru.ball.game.State;
+import ru.ball.game.model.ScreenTransition;
+import ru.ball.game.orchestrator.GameManager;
 import ru.ball.game.orchestrator.TheBallGame;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.List;
 
 public class GameProcessScreen implements Screen {
 
-    private final TheBallGame orchestrator;
+    private final TheBallGame game = GameManager.getInstance().getBallGame();
     private final Ball ball;
     private final Paddle paddle;
     private final List<Block> blocks;
@@ -24,8 +26,7 @@ public class GameProcessScreen implements Screen {
     private final int yBallSpeed = 5;
 
 
-    public GameProcessScreen(TheBallGame orchestrator) {
-        this.orchestrator = orchestrator;
+    public GameProcessScreen() {
         ball = new Ball(0, 0, 10, xBallSpeed, yBallSpeed);
         paddle = new Paddle(50, 150, 20);
         blocks = generateBlock(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
@@ -39,17 +40,17 @@ public class GameProcessScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        orchestrator.getShape().begin(ShapeRenderer.ShapeType.Filled);
-        ball.draw(orchestrator.getShape());
+        game.getShape().begin(ShapeRenderer.ShapeType.Filled);
+        ball.draw(game.getShape());
         ball.update(paddle);
-        paddle.draw(orchestrator.getShape());
+        paddle.draw(game.getShape());
         paddle.update();
         blocks.forEach(block -> {
-            block.draw(orchestrator.getShape());
+            block.draw(game.getShape());
             ball.checkBlockCollision(block);
         });
         blocks.removeIf(Block::isDestroyed);
-        orchestrator.getShape().end();
+        game.getShape().end();
         gameStateHandler(state);
     }
 
@@ -93,7 +94,7 @@ public class GameProcessScreen implements Screen {
     private void gameStateHandler(State state) {
         switch (state) {
             case RUN -> this.state = ball.checkDroppedOnTheGround(state);
-            case PAUSE -> orchestrator.changeScreen(TheBallGame.END_GAME);
+            case PAUSE -> GameManager.getInstance().showScreen(ScreenTransition.END_GAME);
         }
     }
 
